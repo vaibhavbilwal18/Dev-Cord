@@ -1,0 +1,27 @@
+{
+  "name": "dev-cord",
+  "version": "1.0.0",
+  "description": "Application for Dev",
+  "keywords": [
+    "Node",
+    "js",
+    "Javascript",
+    "Mongodb",
+    "Express",
+    "js"
+  ],
+  "license": "ISC",
+  "author": "Vaibhav Bilwal",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}
