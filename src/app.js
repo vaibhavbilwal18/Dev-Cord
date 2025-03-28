@@ -3,22 +3,18 @@
 
  const app = express();
 
-  app.get("/hello",(req , res) => {
-    res.send("hello");
-  });
+ const {authadmin} = require("./middleware/auth.js");
 
-  app.get("/test",(req , res) => {
-    res.send("test");
-  });
+  app.use("/admin" , authadmin);
 
-  app.get("/test/t1",(req , res) => {
-    res.send("Test t1");
-  });
+ app.get("/admin/getData" , (req , res) => {
+      res.send("All Data Sent");
+ });
 
-  app.use((req , res) => {
-    res.send("Default");
-  });
+
 
  app.listen(3000 ,  () => {
-    console.log("Server is started succefully");
+    console.log("Server is started successfully on 3333...");
  });
+// Space also matter in url or request 
+//
