@@ -3,13 +3,27 @@
 
  const app = express();
 
- const {authadmin} = require("./middleware/auth.js");
+//  const {authadmin} = require("./middleware/auth.js");
 
-  app.use("/admin" , authadmin);
+//   app.use("/admin" , authadmin);
 
  app.get("/admin/getData" , (req , res) => {
-      res.send("All Data Sent");
+      
+  try{
+
+    throw new Error("sdfgh");
+    res.send("Use User data")
+  }catch(err){
+    res.status(500).send("Something Went Wrong try and catch block");
+  }
+      
+      
  });
+
+  app.use("/"  , (err , req , res, next) => {
+      res.status(500).send("Something went wrong");
+  },);
+
 
 
 
