@@ -3,22 +3,101 @@ const app = express();
 const connectDB = require("./config/database.js");
 const User = require("./models/user");
 const { default: mongoose } = require('mongoose');
+const {validateSignUpData} = require('./utils/validation.js');
+const bcrypt = require("bcrypt");
+const validator = require("validator");
+const cookieParser = require("cookie-parser");
+const jwt = require("jsonwebtoken");
+
+
+
+
 
  // Middleware to parse JSON bodies
  app.use(express.json());
+ app.use(cookieParser());
  // Adding New user 
  app.post("/signup", async(req,res) => {
+  try{
+   // Validation of data 
+      await validateSignUpData(req);
+
+   // Encrypt the password 
+       const {firstName , lastName , emailId,password} = req.body;
+
+       const passwordHash = await bcrypt.hash(password , 10);
+   
+  // above things are required for saving data in data base 
+
+  const user = new User({
+    firstName , lastName , emailId , password: passwordHash
+    // just seen password : passwordHash remaimber first one is stored thing or base intitiy and second one coping from our own 
+  });
 
   
-  const user = new User(req.body);
-
-   try{
    await user.save();
    res.send("User Added Successfully");
    }catch(err){
-     res.status(400).send("Error saving the user" + err.message);
+     res.status(400).send("Error :"  + err.message);
    }
  });
+
+ // Login Api 
+ app.post("/login" , async(req, res) => {
+   
+  try{
+    const {emailId , password} = req.body;
+
+    if(!validator.isEmail(emailId)){
+      throw new Error("Email ID is not Valied");
+    }
+
+    const user = await User.findOne({emailId : emailId});
+
+    if(!user){
+      throw new Error("Invalied Creadentials !!");
+
+    }
+
+    const isPassword = await bcrypt.compare(password , user.password);
+
+    if(isPassword){
+
+     // Create a JWT token 
+
+     const token = await jwt.sign({_id : user._id} , "Nothing@01$");
+     console.log(token);
+
+     // add the token to cookies and send the responces back to the user 
+      res.cookie("token" , token);
+      
+
+      res.send("User Login SuccessFully !!");
+    }else{
+      throw new Error("Invalied Creadential !!");
+    }
+
+  }catch(err){
+    res.status(404).send("Error :" + err.message );
+  }
+ });
+  
+ // Profile 
+ app.get("/profile" , async(req, res) => {
+  const cookie = req.cookies;
+
+  const {token} = cookie;
+
+  
+  const decodedMsg = await jwt.verify(token , "Nothing@01$");
+
+  const {_id} = decodedMsg;
+  
+  const user = await User.findById(_id);
+ 
+  res.send(user);
+ })
+ 
 
  // for only one user on the emailId basis 
  app.get("/user" , async(req,res) => {
@@ -108,7 +187,7 @@ const { default: mongoose } = require('mongoose');
      .then(()=> {
         console.log("Database Connected Successfully !!");
         app.listen(3000, () => {
-          console.log("Server is started successfully on 3000...");
+          console.log("Server is started successfully on 7000...");
       });
      })
       .catch((err) => {
