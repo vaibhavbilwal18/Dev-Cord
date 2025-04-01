@@ -5,20 +5,18 @@ auth routher
  - Post/Login
  - Post/Logout
 
-Profile router
+# Profile router
  - Get/profile/view
  - Patch/profile/edit
  - Patch/profile/password
 
-Conection router
- - Post/request/send/intredted/:userId
- - post/request/send/ignored/:userid
- - Post/review/accepted/:userid
- - Post/review/ignore/:userid
-
-UserRouter
- - Get/connections
- - Get/request/recived
- - Get/feed - Get users feeds 
+# Conection router
+ - Post/request/send/:status/:userId
+ -  Post/request/review/:status/:userid
+ 
+# UserRouter
+ - Get/user/connections
+ - Get/user/request
+ - Get/user/feed
  
  - Status : Ignore , Intrested , Accepted , Rejected
