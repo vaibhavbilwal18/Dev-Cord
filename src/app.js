@@ -3,14 +3,20 @@ const app = express();
 const connectDB = require("./config/database.js");
 const {  mongoose } = require('mongoose');
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
 
  app.use(express.json());
  app.use(cookieParser());
+ app.use(cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+ }));
+
 
  const authRouter  = require("./routes/auth");
  const profileRouter = require("./routes/profile");
  const requestRouter = require("./routes/request");
-const userRouther = require('./routes/user.js');
+ const userRouther = require('./routes/user.js');
 
  app.use("/" , authRouter);
  app.use("/" , profileRouter);
@@ -25,7 +31,6 @@ const userRouther = require('./routes/user.js');
       });
      })
       .catch((err) => {
-
         console.error("Databse cannot be connect");
       });
  

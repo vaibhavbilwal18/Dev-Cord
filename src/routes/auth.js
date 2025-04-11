@@ -15,15 +15,15 @@ authRouter.post("/signup", async(req,res) => {
         await validateSignUpData(req);
   
      // Encrypt the password 
-         const {firstName , lastName , emailId,password} = req.body;
+         const {firstName, lastName, emailId, password} = req.body;
   
-         const passwordHash = await bcrypt.hash(password , 10);
+         const passwordHash = await bcrypt.hash(password, 10);
      
     // above things are required for saving data in data base 
   
     const user = new User({
       firstName , lastName , emailId , password: passwordHash
-      // just seen password : passwordHash remaimber first one is stored thing or base intitiy and second one coping from our own 
+      // just seen password : passwordHash remaimber first one is stored thing or database intitiy and second one coping from our own 
     });
   
     
@@ -60,7 +60,7 @@ authRouter.post("/signup", async(req,res) => {
         res.cookie("token" , token , {
           expires: new Date(Date.now() + 8 * 3600000),
         });
-        res.send("User Login SuccessFully !!");
+        res.send(user);
       }else{
         throw new Error("Invalied Creadential !!");
       }
