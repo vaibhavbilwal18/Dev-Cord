@@ -5,7 +5,7 @@ const userAuth = async (req, res, next) => {
     // Read the token from cookies
     const { token } = req.cookies;
     if (!token) {
-      throw new Error("Token is not valid!");
+      return res.status(401).send("Unauthorized: No token provided");
     }
     // Verify the token
     const decodedObj = jwt.verify(token, "Nothing@01$");
