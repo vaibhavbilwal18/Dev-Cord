@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const connectDB = require("./config/database.js");
@@ -33,5 +34,5 @@ const cors = require("cors");
       .catch((err) => {
         console.error("Databse cannot be connect");
       });
- 
+
 

@@ -5,6 +5,8 @@ const ConnectionRequestModel   = require("../models/connectionRequest");
 const { User }= require("../models/user");
 const mongoose = require("mongoose"); 
 
+const sendEmail  = require("../utils/sendEmail");  // Changed from sesClient to sendEmail
+
 requestRouter.post("/request/send/:status/:toUserId",
   userAuth,
   async (req, res) => {
@@ -44,6 +46,11 @@ requestRouter.post("/request/send/:status/:toUserId",
       });
 
       const data = await connectionRequest.save();
+
+      const emailResponse = await sendEmail.run();
+
+      console.log("Email sent successfully", emailResponse);
+
 
       res.json({
         message:
