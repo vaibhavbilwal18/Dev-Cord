@@ -5,6 +5,8 @@ const connectDB = require("./config/database.js");
 const {  mongoose } = require('mongoose');
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+const http = require("http");
+const initializaSocket = require("./utils/socket.js");
 
  app.use(express.json());
  app.use(cookieParser());
@@ -18,16 +20,24 @@ const cors = require("cors");
  const profileRouter = require("./routes/profile");
  const requestRouter = require("./routes/request");
  const userRouther = require('./routes/user.js');
+ const initializeSocket = require("./utils/socket");
+ const chatRouter = require("./routes/chat")
 
  app.use("/" , authRouter);
  app.use("/" , profileRouter);
  app.use("/" , requestRouter);
- app.use("/" , userRouther)
+ app.use("/" , userRouther);
+ app.use("/", chatRouter);
+
+const server = http.createServer(app);
+initializeSocket(server);
+
+
 
  connectDB()
      .then(()=> {
         console.log("Database Connected Successfully !!");
-        app.listen(3000, () => {
+        server.listen(3000, () => {
           console.log("Server is started successfully on 3000...");
       });
      })
