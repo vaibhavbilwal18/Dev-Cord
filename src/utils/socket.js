@@ -20,7 +20,7 @@ const initializeSocket = (server) => {
   io.on("connection", (socket) => {
     socket.on("joinChat", ({ firstName, userId, targetUserId }) => {
       const roomId = getSecretRoomId(userId, targetUserId);
-      console.log(firstName + " joined Room : " + roomId);
+    //   console.log(firstName + " joined Room : " + roomId);
       socket.join(roomId);
     });
 
@@ -29,7 +29,7 @@ const initializeSocket = (server) => {
       async ({ firstName, lastName, userId, targetUserId, text }) => {
         try {
           const roomId = getSecretRoomId(userId, targetUserId);
-          console.log(firstName + " " + text);
+        //   console.log(firstName + " " + text);
 
 
           let chat = await Chat.findOne({
