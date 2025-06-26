@@ -69,6 +69,7 @@ const userSchema = new mongoose.Schema(
     about: {
       type: String,
       default: "This is the default description about user",
+      maxlength: [200, 'About section must be less than 200 characters']
     },
     skills: {
       type: [String],
@@ -82,7 +83,7 @@ const userSchema = new mongoose.Schema(
 
 // Method to generate JWT token
 userSchema.methods.getJWT = function () {
-  return jwt.sign({ _id: this._id }, "Nothing@01$", { expiresIn: "7d" });
+  return jwt.sign({ _id: this._id }, process.env.JWT_SECRET, { expiresIn: "7d" });
 };
 
 // Method to validate password

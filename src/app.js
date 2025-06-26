@@ -21,13 +21,16 @@ const initializaSocket = require("./utils/socket.js");
  const requestRouter = require("./routes/request");
  const userRouther = require('./routes/user.js');
  const initializeSocket = require("./utils/socket");
- const chatRouter = require("./routes/chat")
+ const chatRouter = require("./routes/chat");
+ const paymentRouter = require("./routes/payment");
 
  app.use("/" , authRouter);
  app.use("/" , profileRouter);
  app.use("/" , requestRouter);
  app.use("/" , userRouther);
  app.use("/", chatRouter);
+ app.use("/" , paymentRouter);
+
 
 const server = http.createServer(app);
 initializeSocket(server);
